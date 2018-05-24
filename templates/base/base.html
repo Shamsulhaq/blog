@@ -1,0 +1,21 @@
+{% load static %}
+{% include 'base/header.html' %}
+<body>
+
+{% include 'base/head.html' %}
+{% block nav %}
+{% endblock %}
+
+
+	<div class="container-fluid">
+        {% block container %}
+
+        {% endblock %}
+
+	</div>
+
+	{% include 'base/footer.html' %}
+
+	</body>
+</html>
+
