@@ -10,7 +10,7 @@
 				<img src="{{ post.author.profile_image.url }}" alt="Free HTML5 Bootstrap Template" class="img-responsive">
 			</figure>
 			<h3 class="heading">About Me</h3>
-			<h2>{{ post.author.full_name }}</h2>
+			<h2>{{ post.author.name.get_full_name }}</h2>
 			<h2>{{ post.author.name.email }}</h2>
             <p>{{ post.author.details }}</p>
 			<ul class="fh5co-social">

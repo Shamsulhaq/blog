@@ -12,7 +12,7 @@
 					<li><a href="{% url 'index' %}">Blog</a></li>
 					{% if user.is_authenticated %}
 
-                        <li><a href ="{% url 'logout' %}"> {{ user.get_full_name }} </a></li>
+                        <li><a href ="{% url 'update_profile' %}"> {{ user.get_full_name }} </a></li>
                         <li><a href ="{% url 'logout' %}"> Log out </a></li>
                         {% else %}
 
@@ -32,6 +32,55 @@
 			</div>
 		</div>
 </div>
+
+	<div id="fh5co-offcanvas">
+		<a href="#" class="fh5co-close-offcanvas js-fh5co-close-offcanvas"><span><i class="icon-cross3"></i> <span>Close</span></span></a>
+		<div class="fh5co-bio">
+			<figure>
+				<img src="{{ author.profile_image.url }}" alt="Free HTML5 Bootstrap Template" class="img-responsive">
+			</figure>
+			<h3 class="heading">About Me</h3>
+			<h2>{{ author.name.get_full_name }}</h2>
+			<h2>{{ author.name.email }}</h2>
+			<h2>{{ author.phone }}</h2>
+            <p>{{ author.details }}</p>
+			<ul class="fh5co-social">
+				<li><a href="#"><i class="icon-twitter"></i></a></li>
+				<li><a href="#"><i class="icon-facebook"></i></a></li>
+				<li><a href="#"><i class="icon-instagram"></i></a></li>
+			</ul>
+		</div>
+
+		<div class="fh5co-menu">
+			<div class="fh5co-box">
+				<h3 class="heading">Menu</h3>
+				<ul>
+					<li><a href="{% url 'index' %}">Blog</a></li>
+                    {% if user.is_authenticated %}
+					<li><a href="{% url 'update_profile' %}">{{ user }}
+                    </a></li>
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+					<li><a href="{% url 'logout' %}">logout
+                    </a></li>
+                        {% else %}
+                        <li><a href="{% url 'login' %}">login
+                    </a></li>
+                    {% endif %}
+				</ul>
+			</div>
+			<div class="fh5co-box">
+				<h3 class="heading">Search</h3>
+				<form action="#">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Type a keyword">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 
 {% endblock %}
 {% block container %}

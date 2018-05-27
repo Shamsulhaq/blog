@@ -1,0 +1,46 @@
+{% load static %}
+{% include 'base/header.html' %}
+<body>
+
+{% include 'base/head.html' %}
+{% block nav %}
+{% endblock %}
+
+
+	<div class="container-fluid">
+        <div class="row">
+        <div class="col-md-5 col-lg-offset-3">
+              <center><h2>Wellcome {{ user.get_full_name }}</h2></center>
+            <br>
+              <form action="" method="POST" enctype="multipart/form-data" >
+                {% csrf_token %}
+
+                {% for field in form %}
+                    {% for error in field.errors %}
+                      <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+
+                  <p>
+                    {{ field.label_tag }}<br>
+                    {{ field }}
+                    {% if field.help_text %}
+                      <small style="color: grey">{{ field.help_text }}</small>
+                    {% endif %}
+
+                              </p>
+                {% endfor %}
+                <button type="submit" class="btn btn-success">Sign up</button>
+              </form>
+
+
+
+        </div>
+    </div>
+
+	</div>
+
+	{% include 'base/footer.html' %}
+
+	</body>
+</html>
+

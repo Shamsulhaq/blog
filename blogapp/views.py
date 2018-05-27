@@ -2,29 +2,31 @@ from django.views import View
 from django.shortcuts import render,get_object_or_404 ,redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate , login ,logout
-from .forms import SignUpForm
+from .forms import SignUpForm,Profile
+from  django.contrib.auth.models import User
 from . import models
 from django.db.models import Q
 
 # Create your views here.
 
 def index(request):
+    # u = get_object_or_404(User, pk=request.user.id)
+    # log_user = get_object_or_404(models.Author, name=u)
+    post = models.Article.objects.all()
 
-        post = models.Article.objects.all()
+    search = request.GET.get('q')
 
-        search = request.GET.get('q')
+    if search:
+        post = models.Article.objects.filter(
+            Q(title__icontains=search) |
+            Q(details__icontains=search))
 
-        if search:
-            post = models.Article.objects.filter(
-                Q (title__icontains=search)|
-                Q (details__icontains=search))
+    posts = {
+        'posts': post
 
+    }
 
-        posts = {
-            'posts': post
-        }
-
-        return render(request, 'index.html', posts)
+    return render(request, 'index.html', posts)
 
 def singlepost(request,id):
 
@@ -71,7 +73,22 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('index')
+            return redirect('update_profile')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
+
+
+def profileupdate (request):
+    if request.user.is_authenticated:
+        u = get_object_or_404(User, id = request.user.id)
+        form = Profile(request.POST or None, request.FILES or None)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.name = u
+            instance.save()
+            return redirect('index')
+
+        return render(request, 'profile_up.html', {'form': form})
+    else:
+        return redirect('index')
