@@ -1,0 +1,42 @@
+{% load static %}
+{% include 'base/header.html' %}
+<body>
+
+{% include 'base/head.html' %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 col-lg-offset-3">
+              <center><h2>User Signup</h2></center>
+            <br>
+              <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+        <div class="form-group">
+            <label for="email">{{ field.label_tag }}</label>
+            <input class="form-control" {{ field.type }}
+            {{ field }}
+        </div>
+{#      <p>#}
+{#        {{ field.label_tag }}<br>#}
+{#        {{ field }}#}
+{#        {% if field.help_text %}#}
+{#          <small style="color: grey">{{ field.help_text }}</small>#}
+{#        {% endif %}#}
+{#        {% for error in field.errors %}#}
+{#          <p style="color: red">{{ error }}</p>#}
+{#        {% endfor %}#}
+{#      </p>#}
+    {% endfor %}
+    <button type="submit" class="btn btn-success">Sign up</button>
+  </form>
+
+
+
+        </div>
+    </div>
+</div>
+
+</body>

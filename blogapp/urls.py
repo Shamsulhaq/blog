@@ -20,5 +20,8 @@ urlpatterns = [
     path('',views.index,name ='index'),
     path('article/<int:id>',views.singlepost,name ='single_post'),
     path('type/<name>',views.getcategory,name ='type'),
+    path('login',views.getlogin,name ='login'),
+    path('logout',views.getlogout,name ='logout'),
+    path('signup',views.signup,name ='signup'),
 
 ]

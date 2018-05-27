@@ -9,12 +9,17 @@
 			<div class="fh5co-box">
 				<h3 class="heading">Menu</h3>
 				<ul>
-					<li><a href="#">Blog</a></li>
-					<li><a href="#">Style</a></li>
-					<li><a href="#">Create new post</a></li>
-					<li><a href="#">Food &amp; Drinks</a></li>
-					<li><a href="#">Culture</a></li>
-					<li><a href="#">Logout</a></li>
+					<li><a href="{% url 'index' %}">Blog</a></li>
+					{% if user.is_authenticated %}
+
+                        <li><a href ="{% url 'logout' %}"> {{ user.get_full_name }} </a></li>
+                        <li><a href ="{% url 'logout' %}"> Log out </a></li>
+                        {% else %}
+
+                        <li><a href ="{% url 'login' %}"> Log in </a></li>
+
+                    {% endif %}
+
 				</ul>
 			</div>
 			<div class="fh5co-box">
