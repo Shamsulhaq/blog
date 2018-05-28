@@ -55,6 +55,16 @@
       <div class="row">
           <div class="col-sm-10">
               <h4>My Posts |  See Blog all <a href="{% url 'index' %}">Post </a></h4>
+               <!---- Message Show ---->
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+    <!---- Message Show ---->
           </div>
           <div class="col-sm-2">
               <h4><a href="{% url 'create' %}">Create new</a></h4>

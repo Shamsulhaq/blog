@@ -12,6 +12,13 @@
         <div class="col-md-5 col-lg-offset-3">
               <center><h2>Wellcome {{ user.get_full_name }}</h2></center>
             <br>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
               <form action="" method="POST" enctype="multipart/form-data" >
                 {% csrf_token %}
 

@@ -40,6 +40,16 @@
 {% block container %}
     <div class="row fh5co-post-entry">
         <center><h3>All Posts</h3></center>
+    <!---- Message Show ---->
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+    <!---- Message Show ---->
 			{% for post in posts %}
 
                 <article class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xxs-12 animate-box">

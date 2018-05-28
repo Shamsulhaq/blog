@@ -6,6 +6,7 @@ from .forms import SignUpForm,Profile,Article_Create
 from  django.contrib.auth.models import User
 from . import models
 from django.db.models import Q
+from django.contrib import messages
 
 # Create your views here.
 
@@ -73,6 +74,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
+            messages.success(request, 'Registration Successfully')
             return redirect('update_profile')
     else:
         form = SignUpForm()
@@ -82,11 +84,13 @@ def signup(request):
 def profileupdate (request):
     if request.user.is_authenticated:
         u = get_object_or_404(User, id = request.user.id)
-        form = Profile(request.POST or None, request.FILES or None)
+        users = get_object_or_404(models.Author, pk=u)
+        form = Profile(request.POST or None, request.FILES or None,instance = users)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.name = u
             instance.save()
+            messages.success(request, 'Author Profile Create Successfully')
             return redirect('index')
 
         return render(request, 'profile_up.html', {'form': form})
@@ -108,6 +112,7 @@ def aricle_create (request):
             instance = form.save(commit=False)
             instance.author = u
             instance.save()
+            messages.success(request, 'Article Create Successfully')
             return redirect('profile')
 
         return render(request, 'create_art.html', {'form': form})
@@ -122,6 +127,7 @@ def aricle_update (request,pid):
             instance = form.save(commit=False)
             instance.author = u
             instance.save()
+            messages.success(request, 'Article is Update Successfully')
             return redirect('profile')
 
         return render(request, 'create_art.html', {'form': form})
@@ -132,6 +138,7 @@ def aricle_delete (request,pid):
 
         post = get_object_or_404(models.Article, id = pid)
         post.delete()
+        messages.success(request, 'Article is Deleted Successfully')
         return redirect('profile')
 
         return render(request, 'create_art.html', {'form': form})
