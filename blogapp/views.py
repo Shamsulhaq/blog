@@ -129,6 +129,7 @@ def aricle_update (request,pid):
         return redirect('login')
 def aricle_delete (request,pid):
     if request.user.is_authenticated:
+
         post = get_object_or_404(models.Article, id = pid)
         post.delete()
         return redirect('profile')
