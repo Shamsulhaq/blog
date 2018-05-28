@@ -7,6 +7,7 @@ from  django.contrib.auth.models import User
 from . import models
 from django.db.models import Q
 from django.contrib import messages
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 # Create your views here.
 
@@ -14,8 +15,10 @@ def index(request):
     # u = get_object_or_404(User, pk=request.user.id)
     # log_user = get_object_or_404(models.Author, name=u)
     post = models.Article.objects.all()
-
+    paginator = Paginator(post, 8)
     search = request.GET.get('q')
+    page = request.GET.get('page')
+    post = paginator.get_page(page)
 
     if search:
         post = models.Article.objects.filter(
@@ -75,17 +78,17 @@ def signup(request):
             user = authenticate(username=username, password=raw_password)
             login(request, user)
             messages.success(request, 'Registration Successfully')
-            return redirect('update_profile')
+            return redirect('create_profile')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
 
 
-def profileupdate (request):
+def profileCreate (request):
     if request.user.is_authenticated:
         u = get_object_or_404(User, id = request.user.id)
-        users = get_object_or_404(models.Author, pk=u)
-        form = Profile(request.POST or None, request.FILES or None,instance = users)
+        form = Profile(request.POST or None, request.FILES or None)
+
         if form.is_valid():
             instance = form.save(commit=False)
             instance.name = u
@@ -96,12 +99,41 @@ def profileupdate (request):
         return render(request, 'profile_up.html', {'form': form})
     else:
         return redirect('index')
+def profileupdate (request):
+    if request.user.is_authenticated:
+        u = get_object_or_404(User, id = request.user.id)
+        users = get_object_or_404(models.Author, name =u)
+        if users:
+            form = Profile(request.POST or None, request.FILES or None, instance=users)
+        else:
+            form = Profile(request.POST or None, request.FILES or None)
 
-def getprogile(request):
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.name = u
+            instance.save()
+            messages.success(request, 'Author Profile Create Successfully')
+            return redirect('profile')
 
-    u = get_object_or_404(models.Author, name = request.user.id)
-    posts = models.Article.objects.filter(author = u)
-    return render(request, 'profile.html',{'author':u , 'posts':posts})
+        return render(request, 'profile_up.html', {'form': form})
+    else:
+        return redirect('profile')
+
+def getprofile(request):
+    if request.user.is_authenticated:
+        u = get_object_or_404(User, id = request.user.id)
+        a = get_object_or_404(models.Author, name = u)
+        aut = models.Author.objects.filter(name=u)
+        if aut:
+            posts = models.Article.objects.filter(author=a)
+            return render(request, 'profile.html', {'author': a, 'posts': posts})
+
+        else:
+            return redirect('create_profile')
+    else:
+        return redirect('login')
+
+
 
 
 def aricle_create (request):
