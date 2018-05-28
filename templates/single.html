@@ -23,6 +23,20 @@
 {% endblock %}
 {% block container %}
 <div class="container-fluid">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        <!---- Message Show ---->
+                        {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+
+            <!---- Message Show ---->
+    </div>
+
 		<div class="row fh5co-post-entry single-entry">
 			<article class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12 col-xs-offset-0">
 				<figure class="animate-box">
@@ -44,6 +58,35 @@
 			</article>
 		</div>
         <div class="container">
+            <h3 class="well">Comments</h3>
+            {% for comment in comments %}
+                <article class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xxs-12 animate-box">
+                    <p> {{ comment.author }}  ----- {{ comment.create_at }}</p>
+                    <p> {{ comment.comments }}</p>
+                </article>
+                {% empty %}
+                <p>No Comments Found!</p>
+            {% endfor %}
+         <div class="row">
+            <div class="col-md-5 col-lg-offset-3">
+                <br>
+                  <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                          <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                        <div class="form-group">
+                            {{ field.label_tag }}
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-success">Comment</button>
+                  </form>
+            </div>
+         </div>
+        </div>
+        <div class="container">
 
             <h3 class="well">Related Post</h3>
             {% for post in related %}
@@ -56,7 +99,8 @@
                         </article>
 
 
-
+            {% empty %}
+                <p>No Related Found!</p>
             {% endfor %}
 
 

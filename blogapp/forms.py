@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Article, Author,Category
+from .models import Article, Author,Comments
 
 
 class SignUpForm(UserCreationForm):
@@ -34,4 +34,9 @@ class Article_Create(forms.ModelForm):
             'title', 'category', 'image', 'details'
         )
 
+class CreateComment(forms.ModelForm):
+    class Meta:
+        model = Comments
+        labels = ('Write ur Comment')
 
+        fields = ('comments',)

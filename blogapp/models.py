@@ -31,3 +31,10 @@ class Article (models.Model):
 
     def __str__(self):
         return self.title
+class Comments (models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    author = models.ForeignKey(User,on_delete=models.CASCADE)
+    comments = models.TextField()
+    create_at = models.DateField(auto_now_add=True)
+    def __str__(self):
+        return self.article.title

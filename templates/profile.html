@@ -67,7 +67,7 @@
     <!---- Message Show ---->
           </div>
           <div class="col-sm-2">
-              <h4><a href="{% url 'create' %}">Create new</a></h4>
+              <h4><a href="{% url 'create' %}"><i class="fa fa-plus-square"></i> Create New</a></h4>
           </div>
       </div>
 
@@ -77,6 +77,7 @@
             <th>Title</th>
             <th>Category</th>
             <th>Create at</th>
+            <th>Update at</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -86,7 +87,8 @@
             <td><a href="{% url 'single_post' id=post.id %}">{{ post.title  }}</a></td>
             <td><a href="{% url 'type' name=post.category.name %}">{{ post.category.name }}</a></td>
             <td>{{ post.create_at }}</td>
-            <td><a href="{% url 'update' pid=post.id %}">Update</a> || <a href="{% url 'delete' pid=post.id %}">Delete</a></td>
+            <td>{{ post.update_at }}</td>
+            <td><a href="{% url 'update' pid=post.id %}"><i class="	fa fa-cut"></i>Update</a>  ||  <a href="{% url 'delete' pid=post.id %}"><i class="fa fa-eraser"></i>Delete</a></td>
           </tr>
          {% endfor %}
 

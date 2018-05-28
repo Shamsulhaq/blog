@@ -39,7 +39,7 @@
 {% endblock %}
 {% block container %}
     <div class="row fh5co-post-entry">
-        <center><h3>All Posts</h3></center>
+
     <!---- Message Show ---->
                 {% if messages %}
                 <ul class="messages">
@@ -56,9 +56,9 @@
 				<figure >
 					<a href="{% url 'single_post' id=post.id %}"><img src="{{ post.image.url }}" alt="Image" class="img-responsive" height="108"></a>
 				</figure>
-				<span class="fh5co-meta"><a href="{% url 'type' name=post.category.name %}">{{ post.category.name }}</a></span>
-				<h2 class="fh5co-article-title"><a href="{% url 'single_post' id=post.id %}">{{ post.title  }}</a></h2>
-				<span class="fh5co-meta fh5co-date">{{ post.create_at }}</span>
+				<h4 class="fh5co-meta"><a href="{% url 'type' name=post.category.name %}">{{ post.category.name }}</a></h4>
+				<h4 class="fh5co-article-title"><a href="{% url 'single_post' id=post.id %}">{{ post.title  }}</a></h4>
+				<h5 class="fh5co-meta fh5co-date">{{ post.create_at }}</h5>
 			</article>
 
             {% endfor %}

@@ -2,19 +2,19 @@ from django.views import View
 from django.shortcuts import render,get_object_or_404 ,redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate , login ,logout
-from .forms import SignUpForm,Profile,Article_Create
+from .forms import SignUpForm,Profile,Article_Create,CreateComment
 from  django.contrib.auth.models import User
 from . import models
 from django.db.models import Q
 from django.contrib import messages
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.paginator import Paginator
 
 # Create your views here.
 
 def index(request):
     # u = get_object_or_404(User, pk=request.user.id)
     # log_user = get_object_or_404(models.Author, name=u)
-    post = models.Article.objects.all()
+    post = models.Article.objects.order_by('-create_at')
     paginator = Paginator(post, 8)
     search = request.GET.get('q')
     page = request.GET.get('page')
@@ -33,11 +33,20 @@ def index(request):
     return render(request, 'index.html', posts)
 
 def singlepost(request,id):
-
+    u = get_object_or_404(User, id = request.user.id)
     post = get_object_or_404(models.Article,pk = id)
     related = models.Article.objects.filter( category = post.category ).exclude(id =id)[:4]
+    comment = models.Comments.objects.filter(article = post)
+    cr_comment = CreateComment(request.POST or None)
 
-    context = { 'post':post, 'related':related}
+    if cr_comment.is_valid():
+        instance = cr_comment.save(commit=False)
+        instance.article = post
+        instance.author = u
+        instance.save()
+        messages.success(request, 'Comments Successfully Added')
+
+    context = { 'post':post, 'related':related, 'comments':comment, 'form':cr_comment }
 
     return render(request,'single.html',context)
 
