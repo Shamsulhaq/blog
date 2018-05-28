@@ -37,13 +37,13 @@ body.fh5co-overflow {
 }
 
 a {
-  color: #f7c873;
+  color: #46bb0b;
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
 }
 a:hover, a:focus, a:active {
-  color: #f3ac2b;
+  color: #071309;
   outline: none;
   text-decoration: none;
 }
