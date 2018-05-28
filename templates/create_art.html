@@ -1,17 +1,12 @@
 {% load static %}
 {% include 'base/header.html' %}
 <body>
-
-{% include 'base/head.html' %}
-{% block nav %}
-{% endblock %}
-
-
 	<div class="container-fluid">
         <div class="row">
         <div class="col-md-5 col-lg-offset-3">
-              <center><h2>Wellcome {{ user.get_full_name }}</h2></center>
+              <center><h2>Create New Post </h2></center>
             <br>
+            <h3> Author: {{ user.get_full_name }}</h3>
               <form action="" method="POST" enctype="multipart/form-data" >
                 {% csrf_token %}
 
@@ -29,7 +24,8 @@
 
                               </p>
                 {% endfor %}
-                <button type="submit" class="btn btn-success">Update</button>
+                <button type="submit" class="btn btn-success">Create</button>
+                <p class="btn btn-warning"><a href="{% url 'profile' %}">Cancle</a></p>
               </form>
 
 

@@ -2,7 +2,7 @@ from django.views import View
 from django.shortcuts import render,get_object_or_404 ,redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate , login ,logout
-from .forms import SignUpForm,Profile
+from .forms import SignUpForm,Profile,Article_Create
 from  django.contrib.auth.models import User
 from . import models
 from django.db.models import Q
@@ -92,3 +92,51 @@ def profileupdate (request):
         return render(request, 'profile_up.html', {'form': form})
     else:
         return redirect('index')
+
+def getprogile(request):
+
+    u = get_object_or_404(models.Author, name = request.user.id)
+    posts = models.Article.objects.filter(author = u)
+    return render(request, 'profile.html',{'author':u , 'posts':posts})
+
+
+def aricle_create (request):
+    if request.user.is_authenticated:
+        u = get_object_or_404(models.Author, pk = request.user.id)
+        form = Article_Create(request.POST or None, request.FILES or None)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.author = u
+            instance.save()
+            return redirect('profile')
+
+        return render(request, 'create_art.html', {'form': form})
+    else:
+        return redirect('login')
+def aricle_update (request,pid):
+    if request.user.is_authenticated:
+        u = get_object_or_404(models.Author, pk = request.user.id)
+        post = get_object_or_404(models.Article, id = pid)
+        form = Article_Create(request.POST or None, request.FILES or None, instance = post)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.author = u
+            instance.save()
+            return redirect('profile')
+
+        return render(request, 'create_art.html', {'form': form})
+    else:
+        return redirect('login')
+def aricle_delete (request,pid):
+    if request.user.is_authenticated:
+        post = get_object_or_404(models.Article, id = pid)
+        post.delete()
+        return redirect('profile')
+
+        return render(request, 'create_art.html', {'form': form})
+    else:
+        return redirect('login')
+
+
+
+

@@ -9,7 +9,7 @@
 			<figure>
 				<img src="{{ post.author.profile_image.url }}" alt="Free HTML5 Bootstrap Template" class="img-responsive">
 			</figure>
-			<h3 class="heading">About Me</h3>
+			<h3 class="heading">About Author</h3>
 			<h2>{{ post.author.name.get_full_name }}</h2>
 			<h2>{{ post.author.name.email }}</h2>
             <p>{{ post.author.details }}</p>
@@ -18,35 +18,6 @@
 				<li><a href="#"><i class="icon-facebook"></i></a></li>
 				<li><a href="#"><i class="icon-instagram"></i></a></li>
 			</ul>
-		</div>
-
-		<div class="fh5co-menu">
-			<div class="fh5co-box">
-				<h3 class="heading">Menu</h3>
-				<ul>
-					<li><a href="{% url 'index' %}">Blog</a></li>
-                    {% if user.is_authenticated %}
-					<li><a href="{% url 'logout' %}">{{ user }}
-                    </a></li>
-                    {% endif %}
-
-                    {% if user.is_authenticated %}
-					<li><a href="{% url 'logout' %}">logout
-                    </a></li>
-                        {% else %}
-                        <li><a href="{% url 'login' %}">login
-                    </a></li>
-                    {% endif %}
-				</ul>
-			</div>
-			<div class="fh5co-box">
-				<h3 class="heading">Search</h3>
-				<form action="#">
-					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Type a keyword">
-					</div>
-				</form>
-			</div>
 		</div>
 	</div>
 {% endblock %}

@@ -24,5 +24,10 @@ urlpatterns = [
     path('logout',views.getlogout,name ='logout'),
     path('signup',views.signup,name ='signup'),
     path('update_profile',views.profileupdate,name ='update_profile'),
+    path('profile',views.getprogile,name ='profile'),
+    path('create',views.aricle_create,name ='create'),
+    path('update/<int:pid>',views.aricle_update,name ='update'),
+    path('delete/<int:pid>',views.aricle_delete,name ='delete'),
+
 
 ]
